@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Generative AI: A Resource Guide for Student Game Makers</title>
+    <meta name="description"
+        content="Readings, videos and questions about generative AI in education, coding, art and design, ethics, and how AI works, for students building their own games.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f3f5fa;
+            --surface: #ffffff;
+            --ink: #1b2233;
+            --ink-soft: #4a5468;
+            --line: #d9dee9;
+            --focus: #1d5fd1;
+            --edu: #2563c9;
+            --how: #6d45c9;
+            --code: #0d7a60;
+            --art: #c2336c;
+            --eth: #a85f00;
+            --topic: var(--ink);
+            --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+            --body: "Atkinson Hyperlegible", "Verdana", "Segoe UI", system-ui, sans-serif;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                color-scheme: dark;
+                --bg: #11151f;
+                --surface: #1a2030;
+                --ink: #e8ecf4;
+                --ink-soft: #a9b2c4;
+                --line: #2e3647;
+                --focus: #8cb4ff;
+                --edu: #7aa7ff;
+                --how: #b49bff;
+                --code: #4fd1a8;
+                --art: #ff8db5;
+                --eth: #f2b553;
+            }
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit;
+        }
+
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px);
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: var(--body);
+            font-size: 1.0625rem;
+            line-height: 1.6;
+        }
+
+        a {
+            color: var(--topic);
+            text-underline-offset: 0.18em;
+            text-decoration-thickness: 1px;
+        }
+
+        a:hover {
+            text-decoration-thickness: 2px;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        .skip {
+            position: absolute;
+            left: -999px;
+            top: 0.5rem;
+            background: var(--surface);
+            padding: 0.5rem 1rem;
+            z-index: 20;
+        }
+
+        .skip:focus {
+            left: 0.5rem;
+        }
+
+        /* Layout */
+        .shell {
+            display: grid;
+            grid-template-columns: 17rem minmax(0, 1fr);
+            max-width: 76rem;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .side {
+            position: sticky;
+            top: 0;
+            align-self: start;
+            height: 100vh;
+            padding: 2rem 1.25rem 2rem 1.5rem;
+            border-right: 1px solid var(--line);
+            overflow-y: auto;
+        }
+
+        .brand {
+            font-family: var(--display);
+            font-weight: 800;
+            font-size: 1.35rem;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+            margin: 0 0 0.35rem;
+        }
+
+        .brand-sub {
+            color: var(--ink-soft);
+            font-size: 0.9rem;
+            margin: 0 0 1.75rem;
+        }
+
+        .nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 0.25rem;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.55rem 0.75rem;
+            border-radius: 8px;
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.98rem;
+            line-height: 1.3;
+        }
+
+        .nav a:hover {
+            background: var(--surface);
+        }
+
+        .nav a[aria-current="page"] {
+            background: var(--surface);
+            box-shadow: inset 4px 0 0 var(--c, var(--ink));
+        }
+
+        .dot {
+            flex: none;
+            width: 0.8rem;
+            height: 0.8rem;
+            border-radius: 3px;
+            background: var(--c, var(--ink-soft));
+        }
+
+        .nav .home .dot {
+            background: transparent;
+            border: 2px solid var(--ink-soft);
+        }
+
+        main {
+            padding: 2.5rem clamp(1.25rem, 4vw, 3.5rem) 4rem;
+            min-width: 0;
+        }
+
+        .page {
+            max-width: 46rem;
+        }
+
+        .js .page {
+            display: none;
+        }
+
+        .js .page.active {
+            display: block;
+        }
+
+        .page+.page {
+            margin-top: 4rem;
+        }
+
+        .js .page+.page {
+            margin-top: 0;
+        }
+
+        #education {
+            --topic: var(--edu);
+        }
+
+        #how-ai-works {
+            --topic: var(--how);
+        }
+
+        #coding {
+            --topic: var(--code);
+        }
+
+        #art-design {
+            --topic: var(--art);
+        }
+
+        #ethics {
+            --topic: var(--eth);
+        }
+
+        /* Type */
+        h1,
+        h2,
+        h3 {
+            font-family: var(--display);
+            line-height: 1.15;
+            letter-spacing: -0.015em;
+        }
+
+        h1 {
+            font-size: clamp(2.1rem, 5vw, 3.1rem);
+            font-weight: 800;
+            margin: 0 0 1rem;
+        }
+
+        .page h1 {
+            border-bottom: 6px solid var(--topic);
+            padding-bottom: 0.6rem;
+            display: inline-block;
+        }
+
+        h2 {
+            font-size: 1.55rem;
+            font-weight: 700;
+            margin: 2.75rem 0 1rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin: 2.25rem 0 0.75rem;
+        }
+
+        p {
+            margin: 0 0 1rem;
+        }
+
+        .lead {
+            font-size: 1.2rem;
+            line-height: 1.55;
+        }
+
+        .bigq {
+            font-family: var(--display);
+            font-weight: 500;
+            font-size: clamp(1.3rem, 2.6vw, 1.6rem);
+            line-height: 1.3;
+            margin: 0.25rem 0 1.5rem;
+            color: var(--topic);
+        }
+
+        blockquote {
+            margin: 1rem 0 1.25rem;
+            padding: 0.25rem 0 0.25rem 1.1rem;
+            border-left: 3px solid var(--line);
+            color: var(--ink-soft);
+            font-style: italic;
+        }
+
+        .post {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem 0.5rem;
+        }
+
+        .post ul {
+            padding-left: 1.2rem;
+        }
+
+        .post li {
+            margin-bottom: 0.9rem;
+        }
+
+        /* Start here: topic picker */
+        .topics {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0 0;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .topic {
+            --c: var(--ink);
+            display: grid;
+            grid-template-columns: 0.6rem 1fr;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .topic::before {
+            content: "";
+            background: var(--c);
+        }
+
+        .topic-body {
+            padding: 1.1rem 1.4rem 1.2rem;
+        }
+
+        .topic h2 {
+            margin: 0 0 0.35rem;
+            font-size: 1.35rem;
+        }
+
+        .topic h2 a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .topic h2 a:hover {
+            color: var(--c);
+        }
+
+        .topic .q {
+            font-size: 1.08rem;
+            margin: 0 0 0.75rem;
+        }
+
+        .topic .start {
+            font-size: 0.95rem;
+            color: var(--ink-soft);
+            margin: 0;
+        }
+
+        .topic .start a {
+            color: var(--c);
+        }
+
+        .topic .count {
+            color: var(--ink-soft);
+            font-size: 0.95rem;
+        }
+
+        /* Filters */
+        .filter {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 0 1.25rem;
+        }
+
+        .filter span {
+            color: var(--ink-soft);
+            font-size: 0.95rem;
+            margin-right: 0.25rem;
+        }
+
+        .filter button {
+            font: inherit;
+            font-size: 0.92rem;
+            padding: 0.3rem 0.85rem;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            background: var(--surface);
+            color: var(--ink);
+            cursor: pointer;
+        }
+
+        .filter button[aria-pressed="true"] {
+            background: var(--topic);
+            border-color: var(--topic);
+            color: var(--bg);
+            font-weight: 700;
+        }
+
+        .no-js-hide {
+            display: none;
+        }
+
+        .js .no-js-hide {
+            display: flex;
+        }
+
+        /* Resources */
+        .res-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .res {
+            padding: 1.15rem 0 1.1rem;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .res[hidden] {
+            display: none;
+        }
+
+        .res .title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            line-height: 1.35;
+            margin: 0 0 0.2rem;
+        }
+
+        .res .src {
+            color: var(--ink-soft);
+            font-size: 0.95rem;
+            margin: 0 0 0.5rem;
+        }
+
+        .res .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin: 0 0 0.55rem;
+        }
+
+        .tag {
+            font-size: 0.85rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 6px;
+            border: 1px solid var(--line);
+            color: var(--ink-soft);
+            background: var(--surface);
+        }
+
+        .tag.time {
+            border-color: transparent;
+            background: color-mix(in srgb, var(--topic) 14%, var(--surface));
+            color: var(--ink);
+        }
+
+        .res .why {
+            margin: 0;
+        }
+
+        .res.pick {
+            background: var(--surface);
+            border: 2px solid var(--topic);
+            border-radius: 12px;
+            padding: 1.15rem 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .pick-label {
+            display: inline-block;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--topic);
+            margin-bottom: 0.3rem;
+        }
+
+        .empty {
+            color: var(--ink-soft);
+            font-style: italic;
+            padding: 1rem 0;
+        }
+
+        .questions {
+            padding-left: 1.2rem;
+        }
+
+        .questions li {
+            margin-bottom: 0.7rem;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+            color: var(--ink-soft);
+        }
+
+        footer {
+            color: var(--ink-soft);
+            font-size: 0.9rem;
+            margin-top: 4rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--line);
+            max-width: 46rem;
+        }
+
+        /* Mobile */
+        @media (max-width: 52rem) {
+            .shell {
+                grid-template-columns: 1fr;
+            }
+
+            .side {
+                position: sticky;
+                top: 0;
+                height: auto;
+                z-index: 10;
+                padding: 0.85rem 0 0.6rem;
+                border-right: 0;
+                border-bottom: 1px solid var(--line);
+                background: var(--bg);
+                top: env(safe-area-inset-top, 0px);
+            }
+
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0 0 auto;
+                height: env(safe-area-inset-top, 0px);
+                z-index: 11;
+                background: var(--bg);
+            }
+
+            .brand {
+                font-size: 1.05rem;
+                margin: 0 1.25rem 0.5rem;
+            }
+
+            .brand-sub {
+                display: none;
+            }
+
+            .nav {
+                display: flex;
+                gap: 0.35rem;
+                overflow-x: auto;
+                padding: 0 1.25rem 0.25rem;
+                scrollbar-width: none;
+            }
+
+            .nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            .nav a {
+                white-space: nowrap;
+                padding: 0.4rem 0.7rem;
+                font-size: 0.92rem;
+            }
+
+            .nav a[aria-current="page"] {
+                box-shadow: inset 0 -3px 0 var(--c, var(--ink));
+            }
+
+            main {
+                padding-top: 1.75rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .js .page.active {
+                animation: show 0.25s ease-out;
+            }
+
+            @keyframes show {
+                from {
+                    opacity: 0;
+                }
+
+                to {
+                    opacity: 1;
+                }
+            }
+        }
+
+        @media print {
+
+            .side,
+            .filter,
+            .back {
+                display: none;
+            }
+
+            .shell {
+                display: block;
+            }
+
+            .js .page {
+                display: block;
+            }
+
+            .page {
+                page-break-before: always;
+            }
+
+            .page:first-of-type {
+                page-break-before: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <a class="skip" href="#content">Skip to content</a>
+    <div class="shell">
+        <nav class="side" aria-label="Guide sections">
+            <p class="brand">Generative AI: A Resource Guide for Student Game Makers</p>
+            <p class="brand-sub">Updated October 2026</p>
+            <ul class="nav">
+                <li class="home"><a href="#start"><span class="dot" aria-hidden="true"></span>Start here</a></li>
+                <li><a href="#education" style="--c: var(--edu)"><span class="dot" aria-hidden="true"></span>AI in
+                        Education</a></li>
+                <li><a href="#how-ai-works" style="--c: var(--how)"><span class="dot" aria-hidden="true"></span>How AI
+                        Actually Works</a></li>
+                <li><a href="#coding" style="--c: var(--code)"><span class="dot" aria-hidden="true"></span>AI in Coding
+                        &amp; Software</a></li>
+                <li><a href="#art-design" style="--c: var(--art)"><span class="dot" aria-hidden="true"></span>AI in Art
+                        &amp; Design</a></li>
+                <li><a href="#ethics" style="--c: var(--eth)"><span class="dot" aria-hidden="true"></span>Ethical
+                        Questions</a></li>
+            </ul>
+        </nav>
+
+        <main id="content">
+
+            <!-- START HERE -->
+            <section class="page" id="start" aria-labelledby="start-h">
+                <h1 id="start-h">Generative AI: A Resource Guide for Student Game Makers</h1>
+                <p class="lead">This guide covers five topics about generative AI. Pick the one that interests you most
+                    and dive in.</p>
+
+                <ul class="topics">
+                    <li class="topic" style="--c: var(--edu)">
+                        <div class="topic-body">
+                            <h2><a href="#education">AI in Education</a></h2>
+                            <p class="q">Does AI help you learn, or just help you finish?</p>
+                            <p class="start"><span class="count">8 resources.</span> Start with <a
+                                    href="https://cepr.org/voxeu/columns/generative-ai-learning-penalty-secondary-school">The
+                                    generative AI learning penalty</a>, the researchers’ own summary (under 10 min).</p>
+                        </div>
+                    </li>
+                    <li class="topic" style="--c: var(--how)">
+                        <div class="topic-body">
+                            <h2><a href="#how-ai-works">How AI Actually Works</a></h2>
+                            <p class="q">What’s really happening when a chatbot answers or an image generator draws?</p>
+                            <p class="start"><span class="count">6 resources.</span> Start with <a
+                                    href="https://www.youtube.com/watch?v=WMcwoIyK4DA">Large Language Models explained
+                                    briefly</a>, a 3Blue1Brown video (under 10 min).</p>
+                        </div>
+                    </li>
+                    <li class="topic" style="--c: var(--code)">
+                        <div class="topic-body">
+                            <h2><a href="#coding">AI in Coding &amp; Software</a></h2>
+                            <p class="q">What do you actually need to know about code and computer science to build
+                                software with AI agents?</p>
+                            <p class="start"><span class="count">9 resources.</span> Start with <a
+                                    href="https://addyo.substack.com/p/the-70-problem-hard-truths-about">The 70%
+                                    problem</a>, an essay by Addy Osmani (10–30 min).</p>
+                        </div>
+                    </li>
+                    <li class="topic" style="--c: var(--art)">
+                        <div class="topic-body">
+                            <h2><a href="#art-design">AI in Art &amp; Design</a></h2>
+                            <p class="q">What does using AI for game art mean for artists, players and ownership?</p>
+                            <p class="start"><span class="count">6 resources.</span> Start with <a
+                                    href="https://www.youtube.com/watch?v=TWpg1RmzAbc&amp;t=55s">AI Slop</a>, a Last
+                                Week Tonight video (10–30 min).</p>
+                        </div>
+                    </li>
+                    <li class="topic" style="--c: var(--eth)">
+                        <div class="topic-body">
+                            <h2><a href="#ethics">Ethical Questions Around AI</a></h2>
+                            <p class="q">Who gets paid, what does it cost the planet, and who decides the rules?</p>
+                            <p class="start"><span class="count">14 resources.</span> There’s a starting point for each
+                                of its four topics: copyright, environment, safety and young people.</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <h2>How to use this guide</h2>
+                <p>Pick one resource, read, watch or listen to it, and come ready to share what you learned and hear
+                    what others found. Every topic has the same layout: a short introduction, a list of resources with a
+                    <strong>Start here</strong> pick at the top, and questions to consider that connect the topic to
+                    building your own game.</p>
+                <p>Each resource shows roughly how long it takes: <em>under 10 min</em> for a quick read or video,
+                    <em>10–30 min</em> for a solid sit-down, and <em>30+ min</em> for a deep dive. You can filter by
+                    length on each topic page.</p>
+                <p>Found something worth adding? Suggest it, and note its date: this field changes month to month.</p>
+            </section>
+
+            <!-- EDUCATION -->
+            <section class="page" id="education" aria-labelledby="edu-h">
+                <a class="back" href="#start">Back to Start here</a>
+                <h1 id="edu-h">AI in Education</h1>
+                <p class="bigq">Does AI help you learn, or just help you finish?</p>
+                <p>The best current evidence says the same thing two ways: AI that does your thinking for you lowers
+                    what you learn, and AI used as a tutor mostly doesn’t. The post below is from our technology
+                    director; the resources after it add the original research behind the headlines, so you can read the
+                    source instead of the summary.</p>
+
+                <h2>From Ms. Gjedsted</h2>
+                <div class="post">
+                    <p>Let’s talk about technology in education! Here is the current discourse on AI in education that
+                        has come up in my algorithms:</p>
+                    <ul>
+                        <li>The term <em>cognitive surrender</em> is mentioned in this <a
+                                href="https://aiandeducation.mit.edu/report/">MIT Report on AI and Education</a> and
+                            sensationalized in other articles (see <a
+                                href="https://www.nytimes.com/2026/09/15/us/universities-ai-warnings-enthusiasm.html?unlocked_article_code=1.ElE.XHnY.yBnPC6rxcQ7p&amp;smid=url-share">NYTimes:
+                                An MIT Report Warns AI Is Causing Cognitive Surrender. Universities Are In A Bind</a>).
+                            However, I find the original report optimistic and a call to return to good teaching and
+                            learning in higher education. What are your thoughts on the original report?</li>
+                        <li>The Economist published an article (<a
+                                href="https://www.economist.com/graphic-detail/2026/08/18/does-ai-stop-children-from-learning?giftId=NTM1ODU3NjctZDdhYS00YTA4LTg3ODEtOTViNTVkNDVkMTFh&amp;utm_campaign=gifted_article">Does
+                                AI stop children from learning?</a>) that uses a study frequently referenced (also noted
+                            in the NYTimes article). Most references talk about the first finding: homework scores rose
+                            and homework time fell for students who used AI, but exam scores fell for a large percentage
+                            of them. There is another part to the study. Students who used AI but spent as long on their
+                            homework didn’t experience the same drop in exam scores. The article concludes:
+                            <blockquote>“What matters, then, is how pupils use the technology. Those whose exam results
+                                remained strong were not simply copying and pasting answers to save time. More likely
+                                they used the chatbots as a personal tutor, perhaps to explain difficult concepts or
+                                help solve specific problems.”</blockquote>
+                        </li>
+                    </ul>
+                </div>
+
+                <h2>Resources</h2>
+                <div class="filter no-js-hide" role="group" aria-label="Filter by length"></div>
+                <ul class="res-list">
+                    <li class="res pick" data-time="short">
+                        <span class="pick-label">Start here</span>
+                        <p class="title"><a
+                                href="https://cepr.org/voxeu/columns/generative-ai-learning-penalty-secondary-school">The
+                                generative AI learning penalty in secondary school</a></p>
+                        <p class="src">VoxEU, September 2026</p>
+                        <p class="meta"><span class="tag">Short article by the researchers</span><span
+                                class="tag time">Under 10 min</span></p>
+                        <p class="why">The study behind the Economist piece, explained by its own authors and free to
+                            read. 26,811 students in grades 7–12 tracked for 30 months.</p>
+                    </li>
+                    <li class="res" data-time="long">
+                        <p class="title"><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6868618">The
+                                Generative AI Learning Penalty</a></p>
+                        <p class="src">Strömberg, Lei &amp; Wu, SSRN, June 2026</p>
+                        <p class="meta"><span class="tag">Research paper</span><span class="tag time">30+ min</span></p>
+                        <p class="why">The full paper, for anyone who wants the charts. It’s a working paper, not yet
+                            peer-reviewed.</p>
+                    </li>
+                    <li class="res" data-time="long">
+                        <p class="title"><a href="https://www.pnas.org/doi/10.1073/pnas.2422633122">Generative AI
+                                without guardrails can harm learning</a></p>
+                        <p class="src">Bastani et al., PNAS, 2025</p>
+                        <p class="meta"><span class="tag">Peer-reviewed study</span><span class="tag time">30+
+                                min</span></p>
+                        <p class="why">A randomized experiment in high-school math: students with a plain chatbot did
+                            worse on tests later, while a version built to tutor instead of answer largely avoided the
+                            harm.</p>
+                    </li>
+                    <li class="res" data-time="long">
+                        <p class="title"><a href="https://arxiv.org/abs/2607.08849">Experimental Evidence on the
+                                Learning Impact of Generative AI</a></p>
+                        <p class="src">Contractor &amp; Reyes, Middlebury, 2026</p>
+                        <p class="meta"><span class="tag">Research paper (counterpoint)</span><span class="tag time">30+
+                                min</span></p>
+                        <p class="why">A randomized experiment: college students with a chatbot scored higher on unaided
+                            tests, and some of the gain held a week later. Gains lasted for students who used AI to
+                            explain concepts and faded for those who had it write for them. Read it alongside the
+                            penalty study.</p>
+                    </li>
+                    <li class="res" data-time="long">
+                        <p class="title"><a href="https://osf.io/preprints/psyarxiv/yk25n_v1">Cognitive surrender
+                                preprint</a></p>
+                        <p class="src">PsyArXiv</p>
+                        <p class="meta"><span class="tag">Research preprint</span><span class="tag time">30+ min</span>
+                        </p>
+                        <p class="why">The paper the MIT report cites when it uses the phrase. Go to the source before
+                            you repeat the headline.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a
+                                href="https://www.pewresearch.org/internet/2026/06/17/americans-and-ai-2026-chatbots-smart-devices-and-views-on-impact/">Americans
+                                and AI 2026</a></p>
+                        <p class="src">Pew Research, June 2026</p>
+                        <p class="meta"><span class="tag">Survey data</span><span class="tag time">10–30 min</span></p>
+                        <p class="why">How people of different ages actually use chatbots, including for personal
+                            advice. Good for checking your own habits against the national picture.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a
+                                href="https://cdt.org/wp-content/uploads/2025/10/CDT-2025-Hand-in-Hand-Polling-111225-accessible.pdf">Hand
+                                in Hand</a></p>
+                        <p class="src">Center for Democracy &amp; Technology, October 2025</p>
+                        <p class="meta"><span class="tag">Survey study</span><span class="tag time">10–30 min</span></p>
+                        <p class="why">Links heavier school AI use with more risks to students, from data breaches to
+                            unhealthy relationships with chatbots.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a href="https://www.oneusefulthing.org/">One Useful Thing</a></p>
+                        <p class="src">Ethan Mollick</p>
+                        <p class="meta"><span class="tag">Newsletter</span><span class="tag time">10–30 min per
+                                post</span></p>
+                        <p class="why">A Wharton professor who tests new AI tools as they come out and writes often
+                            about AI tutoring and teaching. Pick any recent post.</p>
+                    </li>
+                </ul>
+
+                <h2>Questions to consider</h2>
+                <ul class="questions">
+                    <li>In what situations and contexts do AI tools help your learning? When do they get in the way?
+                    </li>
+                    <li>What do you keep in mind when you’re working with AI?</li>
+                    <li>What do you want teachers to know about your AI use?</li>
+                    <li>The penalty study used time spent on homework as its signal. When you build your game with AI,
+                        what would tell <em>you</em> whether you’re learning or outsourcing?</li>
+                </ul>
+            </section>
+
+            <!-- HOW AI WORKS -->
+            <section class="page" id="how-ai-works" aria-labelledby="how-h">
+                <a class="back" href="#start">Back to Start here</a>
+                <h1 id="how-h">How AI Actually Works</h1>
+                <p class="bigq">What’s really happening when a chatbot answers or an image generator draws?</p>
+                <p>A chatbot is a very large math function that predicts the next chunk of text, trained on more writing
+                    than any person could read in thousands of years. Image and video tools work differently: they start
+                    from random noise and remove it step by step until a picture appears. Knowing this helps you predict
+                    when your AI coding partner will be confidently wrong, and why your generated sprites come out with
+                    six-fingered hands.</p>
+                <p>Start with the short video, then go deeper if you’re curious.</p>
+
+                <h2>Resources</h2>
+                <div class="filter no-js-hide" role="group" aria-label="Filter by length"></div>
+                <ul class="res-list">
+                    <li class="res pick" data-time="short">
+                        <span class="pick-label">Start here</span>
+                        <p class="title"><a href="https://www.youtube.com/watch?v=WMcwoIyK4DA">Large Language Models
+                                explained briefly</a></p>
+                        <p class="src">3Blue1Brown, 2024</p>
+                        <p class="meta"><span class="tag">Video</span><span class="tag time">Under 10 min</span></p>
+                        <p class="why">The best short starting point. Made for the Computer History Museum’s chatbot
+                            exhibit, it covers next-word prediction, training and why no one hand-sets the model’s
+                            billions of settings.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a href="https://www.youtube.com/watch?v=eMlx5fFNoYc">Attention in
+                                transformers, step-by-step</a></p>
+                        <p class="src">3Blue1Brown, 2024</p>
+                        <p class="meta"><span class="tag">Video</span><span class="tag time">10–30 min</span></p>
+                        <p class="why">The math inside the “T” in GPT. Watch the short video above first; this one is
+                            chapter 6 of a longer series and assumes some algebra.</p>
+                    </li>
+                    <li class="res" data-time="long">
+                        <p class="title"><a href="https://www.youtube.com/watch?v=iv-5mZ_9CPY">But how do AI images and
+                                videos actually work?</a></p>
+                        <p class="src">Welch Labs guest video on 3Blue1Brown, July 2025</p>
+                        <p class="meta"><span class="tag">Video</span><span class="tag time">30+ min</span></p>
+                        <p class="why">The image-generator side: diffusion models, and how a text prompt steers random
+                            noise into a picture. Essential if you’re generating game art.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a
+                                href="https://www.anthropic.com/research/tracing-thoughts-language-model">Tracing the
+                                thoughts of a large language model</a></p>
+                        <p class="src">Anthropic, March 2025</p>
+                        <p class="meta"><span class="tag">Article with diagrams</span><span class="tag time">10–30
+                                min</span></p>
+                        <p class="why">Researchers built a “microscope” to look inside a model and found it plans rhymes
+                            ahead and sometimes invents reasoning to agree with a wrong hint. Note it’s written by an AI
+                            company about its own model.</p>
+                    </li>
+                    <li class="res" data-time="short">
+                        <p class="title"><a
+                                href="https://curve.mit.edu/exploring-shift-traditional-generative-ai">Exploring the
+                                Shift from Traditional to Generative AI</a></p>
+                        <p class="src">MIT Open Learning</p>
+                        <p class="meta"><span class="tag">Article</span><span class="tag time">Under 10 min</span></p>
+                        <p class="why">Explains how today’s generative AI differs from the older AI that sorts spam and
+                            recommends videos. A good vocabulary builder.</p>
+                    </li>
+                    <li class="res" data-time="long">
+                        <p class="title"><a href="https://www.youtube.com/watch?app=desktop&amp;v=-sB12gk9ESA">AI
+                                Revolution</a></p>
+                        <p class="src">NOVA, PBS, 2024</p>
+                        <p class="meta"><span class="tag">Documentary</span><span class="tag time">30+ min</span></p>
+                        <p class="why">A broad, well-produced overview of what AI can do and the worries around it.
+                            Filmed in 2024, so it predates today’s AI agents; ask yourself what has changed since.</p>
+                    </li>
+                </ul>
+
+                <h2>Questions to consider</h2>
+                <ul class="questions">
+                    <li>If a chatbot is predicting likely text, what kinds of questions should you expect it to get
+                        wrong? Have you seen this happen in your code?</li>
+                    <li>Image generators learned from millions of existing pictures. What does that suggest about how
+                        “original” their output can be?</li>
+                    <li>Even the people who build these models can’t fully explain how they reach an answer. Does that
+                        change how much you trust them?</li>
+                </ul>
+            </section>
+
+            <!-- CODING -->
+            <section class="page" id="coding" aria-labelledby="code-h">
+                <a class="back" href="#start">Back to Start here</a>
+                <h1 id="code-h">AI in Coding &amp; Software</h1>
+                <p class="bigq">What do you actually need to know about code and computer science to build software with
+                    AI agents?</p>
+                <p>By early 2026, some professional developers said AI agents were writing around 80% of their code.
+                    That doesn’t make code knowledge useless; it changes which parts matter. AI is good at the first
+                    draft. The rest is still on you: deciding exactly what to build, describing it precisely, reading
+                    and testing what the AI wrote, catching security holes, and understanding how the pieces of your
+                    game fit together. That’s where computer science pays off.</p>
+
+                <h2>Resources</h2>
+                <div class="filter no-js-hide" role="group" aria-label="Filter by length"></div>
+                <ul class="res-list">
+                    <li class="res pick" data-time="mid">
+                        <span class="pick-label">Start here</span>
+                        <p class="title"><a href="https://addyo.substack.com/p/the-70-problem-hard-truths-about">The 70%
+                                problem: Hard truths about AI-assisted coding</a></p>
+                        <p class="src">Addy Osmani, December 2024</p>
+                        <p class="meta"><span class="tag">Essay</span><span class="tag time">10–30 min</span></p>
+                        <p class="why">A Google engineering leader explains why AI gets you about 70% of the way fast,
+                            while the last 30% (edge cases, security, connecting the parts) is as hard as ever. Explains
+                            why beginners get stuck in a loop of fixes that break other things.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a href="https://addyo.substack.com/p/the-80-problem-in-agentic-coding">The 80%
+                                Problem in Agentic Coding</a></p>
+                        <p class="src">Addy Osmani, January 2026</p>
+                        <p class="meta"><span class="tag">Essay</span><span class="tag time">10–30 min</span></p>
+                        <p class="why">The sequel, written once AI agents could do more. The share AI writes went up,
+                            but the hard part moved rather than disappeared: AI’s mistakes are now wrong assumptions
+                            rather than typos, and the human’s job is defining the problem and checking the result.</p>
+                    </li>
+                    <li class="res" data-time="long">
+                        <p class="title"><a
+                                href="https://www.ycombinator.com/library/MW-andrej-karpathy-software-is-changing-again">Software
+                                Is Changing (Again)</a></p>
+                        <p class="src">Andrej Karpathy, Y Combinator, June 2025</p>
+                        <p class="meta"><span class="tag">Talk</span><span class="tag time">30+ min</span></p>
+                        <p class="why">A founding member of OpenAI, speaking to students, describes three kinds of
+                            software: code people write, neural networks trained on data, and AI you program in plain
+                            English. His advice is to be fluent in all three and know which one fits a problem.</p>
+                    </li>
+                    <li class="res" data-time="long">
+                        <p class="title"><a href="https://simonwillison.net/2025/Mar/11/using-llms-for-code/">Here’s how
+                                I use LLMs to help me write code</a></p>
+                        <p class="src">Simon Willison, March 2025</p>
+                        <p class="meta"><span class="tag">Practical guide</span><span class="tag time">30+ min</span>
+                        </p>
+                        <p class="why">A respected programmer’s honest how-to: set realistic expectations, give the AI
+                            context, and always test what it writes. Shows what working knowledge he relies on when the
+                            AI is wrong.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a href="https://www.anthropic.com/research/AI-assistance-coding-skills">How AI
+                                assistance impacts the formation of coding skills</a></p>
+                        <p class="src">Anthropic, January 2026</p>
+                        <p class="meta"><span class="tag">Research summary</span><span class="tag time">10–30 min</span>
+                        </p>
+                        <p class="why">Names the specific skills you need to supervise AI-written code (debugging,
+                            reading code and understanding concepts) and found they suffered most when people handed off
+                            the work. People who asked for explanations kept them. Written by researchers at a company
+                            that sells AI coding tools.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a
+                                href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">Measuring
+                                the Impact of Early-2025 AI on Experienced Developer Productivity</a></p>
+                        <p class="src">METR, July 2025</p>
+                        <p class="meta"><span class="tag">Research summary</span><span class="tag time">10–30 min</span>
+                        </p>
+                        <p class="why">Experienced programmers were 19% <em>slower</em> with AI on their own projects
+                            but believed they were 20% faster. The <a
+                                href="https://metr.org/blog/2026-02-24-uplift-update/">February 2026 follow-up</a>
+                            suggests newer tools help more, but so many developers refused to work without AI that it
+                            couldn’t be measured cleanly.</p>
+                    </li>
+                    <li class="res" data-time="short">
+                        <p class="title"><a href="https://digitaleconomy.stanford.edu/news/canariesaug26/">No Widespread
+                                Displacement, but the AI Employment Gap for Young Workers Has Widened</a></p>
+                        <p class="src">Stanford Digital Economy Lab, August 2026</p>
+                        <p class="meta"><span class="tag">Research summary</span><span class="tag time">Under 10
+                                min</span></p>
+                        <p class="why">Jobs for 22–25-year-olds in AI-exposed fields, including software development,
+                            are 19% below where they’d otherwise be. The drop is in work AI replaces; where AI helps
+                            people do their job, employment held steady. Which side of that line you’re on depends on
+                            your skills.</p>
+                    </li>
+                    <li class="res" data-time="short">
+                        <p class="title"><a
+                                href="https://gdconf.com/article/gdc-2026-state-of-the-game-industry-reveals-impact-of-layoffs-generative-ai-and-more/">2026
+                                State of the Game Industry</a></p>
+                        <p class="src">GDC, 2026</p>
+                        <p class="meta"><span class="tag">Industry survey</span><span class="tag time">Under 10
+                                min</span></p>
+                        <p class="why">52% of 2,300 game professionals think generative AI is hurting the industry, and
+                            game programmers (59%) are among the most negative. Yet about a third use it at work, mostly
+                            for research and code help rather than finished game content.</p>
+                    </li>
+                    <li class="res" data-time="long">
+                        <p class="title"><a
+                                href="https://www.newyorker.com/magazine/2023/11/20/a-coder-considers-the-waning-days-of-the-craft">A
+                                Coder Considers the Waning Days of the Craft</a></p>
+                        <p class="src">James Somers, The New Yorker, November 2023</p>
+                        <p class="meta"><span class="tag">Personal essay (paywalled)</span><span class="tag time">30+
+                                min</span></p>
+                        <p class="why">A programmer asks what’s left of his craft when AI can write code. Written before
+                            AI agents existed; compare his predictions with the 2026 pieces above.</p>
+                    </li>
+                </ul>
+
+                <h2>Questions to consider</h2>
+                <ul class="questions">
+                    <li>AI can write the first 70–80% of your game. What’s in the last 20–30%: the bug that only appears
+                        on level 3, the score that doesn’t save, the collision that sometimes fails? What would you need
+                        to know to fix it?</li>
+                    <li>Karpathy says English is now a programming language. What makes a description of a game feature
+                        precise enough for an AI to build it the way you imagined?</li>
+                    <li>Which computer science ideas (game state, loops, events, data structures, how a game updates
+                        each frame) did you need to understand when the AI got something wrong?</li>
+                    <li>Entry-level jobs are shrinking where AI replaces the work and holding steady where it helps
+                        people do the work. What skills would put you on the second side?</li>
+                </ul>
+            </section>
+
+            <!-- ART & DESIGN -->
+            <section class="page" id="art-design" aria-labelledby="art-h">
+                <a class="back" href="#start">Back to Start here</a>
+                <h1 id="art-h">AI in Art &amp; Design</h1>
+                <p class="bigq">What does using AI for game art mean for artists, players and ownership?</p>
+                <p>Game artists are the group most opposed to generative AI: 64% of visual and technical artists in the
+                    2026 GDC survey said it is hurting the industry. Players are watching too. Since January 2026, Steam
+                    requires games to label AI-generated art, audio and writing that players see or hear, while code
+                    written with an AI assistant needs no label. So every art choice in your game is also a choice about
+                    how you present it.</p>
+                <p>If you haven’t yet, watch the Welch Labs video on how image generators work in <a
+                        href="#how-ai-works">How AI Actually Works</a> first.</p>
+
+                <h2>Resources</h2>
+                <div class="filter no-js-hide" role="group" aria-label="Filter by length"></div>
+                <ul class="res-list">
+                    <li class="res pick" data-time="mid">
+                        <span class="pick-label">Start here</span>
+                        <p class="title"><a href="https://www.youtube.com/watch?v=TWpg1RmzAbc&amp;t=55s">AI Slop</a></p>
+                        <p class="src">Last Week Tonight with John Oliver, 2025</p>
+                        <p class="meta"><span class="tag">Video, comedy news</span><span class="tag time">10–30
+                                min</span></p>
+                        <p class="why">A funny, sharp tour of the cheap AI-generated content flooding social media, and
+                            who profits from it. Contains some adult language.</p>
+                    </li>
+                    <li class="res" data-time="short">
+                        <p class="title"><a href="https://www.nytimes.com/2025/10/19/opinion/ai-sora-slop.html">What Is
+                                Sora Slop For, Exactly?</a></p>
+                        <p class="src">Bobbie Johnson, New York Times guest essay, October 2025</p>
+                        <p class="meta"><span class="tag">Opinion (paywalled)</span><span class="tag time">Under 10
+                                min</span></p>
+                        <p class="why">Asks what AI video apps are actually <em>for</em> once the novelty fades. Pairs
+                            well with the John Oliver piece.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a
+                                href="https://www.blackbirdspyplane.com/p/actually-making-things-is-fun">Actually Making
+                                Things Is Fun</a></p>
+                        <p class="src">Blackbird Spyplane</p>
+                        <p class="meta"><span class="tag">Essay</span><span class="tag time">10–30 min</span></p>
+                        <p class="why">An argument that the process of making something by hand is the point, not an
+                            obstacle to skip. Read it before deciding how much of your game’s art to generate.</p>
+                    </li>
+                    <li class="res" data-time="short">
+                        <p class="title"><a
+                                href="https://www.gamedeveloper.com/business/valve-tweaks-and-clarifies-ai-disclosure-rules-for-steam">Valve
+                                tweaks and clarifies AI disclosure rules for Steam</a></p>
+                        <p class="src">Game Developer, January 2026</p>
+                        <p class="meta"><span class="tag">News article</span><span class="tag time">Under 10 min</span>
+                        </p>
+                        <p class="why">The rules a real game store applies to AI content, including the line between AI
+                            tools used to build a game and AI content shipped to players. Useful if you ever publish
+                            your game.</p>
+                    </li>
+                    <li class="res" data-time="long">
+                        <p class="title"><a href="https://www.copyright.gov/ai/">Copyright and Artificial
+                                Intelligence</a></p>
+                        <p class="src">U.S. Copyright Office</p>
+                        <p class="meta"><span class="tag">Government reports</span><span class="tag time">30+ min</span>
+                        </p>
+                        <p class="why">Part 2 (January 2025) answers a question every game maker should know: art
+                            generated purely from a prompt can’t be copyrighted in the U.S., but your own edits,
+                            selection and arrangement can be.</p>
+                    </li>
+                    <li class="res" data-time="short">
+                        <p class="title"><a href="https://glaze.cs.uchicago.edu/">Glaze and Nightshade</a></p>
+                        <p class="src">University of Chicago</p>
+                        <p class="meta"><span class="tag">Free tools and explainer</span><span class="tag time">Under 10
+                                min</span></p>
+                        <p class="why">Tools artists use to make their online work harder for AI to copy or train on.
+                            Shows how artists are pushing back with technology of their own.</p>
+                    </li>
+                </ul>
+
+                <h2>Questions to consider</h2>
+                <ul class="questions">
+                    <li>If you used AI for any art, sound or writing in your game, how would you describe it in a
+                        Steam-style disclosure? Would players react differently than you expect?</li>
+                    <li>If a prompt-only image can’t be copyrighted, who owns the AI-generated sprite in your game? What
+                        would you need to add to make it yours?</li>
+                    <li>Where in your game does hand-made work matter most to you, and where would you be happy to use a
+                        generated placeholder?</li>
+                    <li>What’s the difference between AI “slop” and a creative tool? Is it the tool, the effort, or the
+                        intent?</li>
+                </ul>
+            </section>
+
+            <!-- ETHICS -->
+            <section class="page" id="ethics" aria-labelledby="eth-h">
+                <a class="back" href="#start">Back to Start here</a>
+                <h1 id="eth-h">Ethical Questions Around AI</h1>
+                <p class="bigq">Who gets paid, what does it cost the planet, and who decides the rules?</p>
+                <p>The biggest ethical questions about AI are still open in 2026: courts haven’t decided whether
+                    training on copyrighted work is legal, experts disagree about the environmental cost, and
+                    governments are only starting to set rules. That makes this a good topic to argue about. Several
+                    resources below are deliberately paired so you hear both sides, and each of the four topics has its
+                    own starting point.</p>
+
+                <div class="filter no-js-hide" role="group" aria-label="Filter by length"></div>
+
+                <h2>Copyright: who gets paid?</h2>
+                <ul class="res-list">
+                    <li class="res pick" data-time="short">
+                        <span class="pick-label">Start here</span>
+                        <p class="title"><a
+                                href="https://www.axios.com/2026/09/08/nyt-openai-microsoft-copyright-lawsuit">Historic
+                                NYT v. OpenAI copyright battle heats up</a></p>
+                        <p class="src">Axios, September 2026</p>
+                        <p class="meta"><span class="tag">News article</span><span class="tag time">Under 10 min</span>
+                        </p>
+                        <p class="why">Where the Times’ 2023 lawsuit stands now: both sides have asked the judge to rule
+                            on “fair use” without a trial. Short and clear on what each side argues.</p>
+                    </li>
+                    <li class="res" data-time="short">
+                        <p class="title"><a
+                                href="https://www.npr.org/2025/09/05/nx-s1-5529404/anthropic-settlement-authors-copyright-ai">Anthropic
+                                Settles with Authors in First-of-its-Kind Copyright Lawsuit</a></p>
+                        <p class="src">NPR, September 2025</p>
+                        <p class="meta"><span class="tag">News article</span><span class="tag time">Under 10 min</span>
+                        </p>
+                        <p class="why">The $1.5 billion settlement over pirated books used for training. A judge had
+                            ruled that training on purchased books was fair use but downloading pirated copies was not.
+                        </p>
+                    </li>
+                    <li class="res" data-time="short">
+                        <p class="title"><a
+                                href="https://authorsguild.org/news/court-grants-final-approval-anthropic-copyright-settlement/">Court
+                                Grants Final Approval of $1.5 Billion Anthropic Copyright Settlement</a></p>
+                        <p class="src">Authors Guild, July 2026</p>
+                        <p class="meta"><span class="tag">Update</span><span class="tag time">Under 10 min</span></p>
+                        <p class="why">The follow-up: the settlement was approved in July 2026, at roughly $3,000 per
+                            book. Written by an authors’ advocacy group, so note its point of view.</p>
+                    </li>
+                </ul>
+
+                <h2>Environment: how big is AI’s footprint?</h2>
+                <ul class="res-list">
+                    <li class="res pick" data-time="mid">
+                        <span class="pick-label">Start here</span>
+                        <p class="title"><a
+                                href="https://ourworldindata.org/how-much-energy-do-data-centers-and-artificial-intelligence-use">How
+                                much energy do data centers and AI use?</a></p>
+                        <p class="src">Our World in Data, July 2026</p>
+                        <p class="meta"><span class="tag">Data explainer with charts</span><span class="tag time">10–30
+                                min</span></p>
+                        <p class="why">Puts AI’s electricity use in context against everything else, with sources for
+                            every number.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a
+                                href="https://www.theatlantic.com/technology/archive/2024/03/ai-water-climate-microsoft/677602/">AI
+                                Is Taking Water from the Desert</a></p>
+                        <p class="src">Karen Hao, The Atlantic, March 2024</p>
+                        <p class="meta"><span class="tag">Investigative article (paywalled)</span><span
+                                class="tag time">10–30 min</span></p>
+                        <p class="why">How data centers strain local water in drought-prone places. <strong>Read with
+                                the next item.</strong></p>
+                    </li>
+                    <li class="res" data-time="long">
+                        <p class="title"><a href="https://blog.andymasley.com/p/the-ai-water-issue-is-fake">The AI Water
+                                Issue Is Fake</a></p>
+                        <p class="src">Andy Masley</p>
+                        <p class="meta"><span class="tag">Blog post (counterargument)</span><span class="tag time">30+
+                                min</span></p>
+                        <p class="why">Argues AI’s water use is tiny compared with farming and other industries. A
+                            blogger, not a journalist or scientist; check how his numbers compare with Our World in
+                            Data.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a
+                                href="https://www.wired.com/story/europe-squeeze-power-energy-grid-ai-data-center/">The
+                                AI Race Is Pressuring Utilities to Squeeze More from Europe’s Power Grids</a></p>
+                        <p class="src">Joel Khalili, Wired</p>
+                        <p class="meta"><span class="tag">News article (may be paywalled)</span><span
+                                class="tag time">10–30 min</span></p>
+                        <p class="why">The local view: what happens to a region’s power grid when data centers move in.
+                        </p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a
+                                href="https://www.iea.org/reports/key-questions-on-energy-and-ai/executive-summary">Key
+                                Questions on Energy and AI</a></p>
+                        <p class="src">International Energy Agency, 2026</p>
+                        <p class="meta"><span class="tag">Report summary</span><span class="tag time">10–30 min</span>
+                        </p>
+                        <p class="why">The global energy agency’s numbers. A simple text question now uses less power
+                            than a TV over the same time, but AI video and agents can use hundreds or thousands of times
+                            more.</p>
+                    </li>
+                </ul>
+
+                <h2>Power, safety and the future</h2>
+                <ul class="res-list">
+                    <li class="res pick" data-time="mid">
+                        <span class="pick-label">Start here</span>
+                        <p class="title"><a
+                                href="https://internationalaisafetyreport.org/publication/2026-report-executive-summary">International
+                                AI Safety Report 2026: Executive Summary</a></p>
+                        <p class="src">February 2026</p>
+                        <p class="meta"><span class="tag">Report summary, 3 pages</span><span class="tag time">10–30
+                                min</span></p>
+                        <p class="why">Over 100 experts led by Turing Award winner Yoshua Bengio, backed by 30+
+                            countries, summarize what AI can do and what could go wrong, from job losses to misuse. The
+                            most balanced overview of AI risk available.</p>
+                    </li>
+                    <li class="res" data-time="short">
+                        <p class="title"><a
+                                href="https://www.nytimes.com/2025/05/30/opinion/silicon-valley-ai-empire.html">Silicon
+                                Valley Is at an Inflection Point</a></p>
+                        <p class="src">Karen Hao, New York Times opinion, May 2025</p>
+                        <p class="meta"><span class="tag">Opinion (paywalled)</span><span class="tag time">Under 10
+                                min</span></p>
+                        <p class="why">Argues AI companies are behaving like empires, gathering data, labor and
+                            resources. Drawn from her book <em>Empire of AI</em>.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a href="https://www.youtube.com/watch?v=aAPpQC-3EyE">Anthropic CEO Warns That
+                                Without Guardrails AI Could Be on a Dangerous Path</a></p>
+                        <p class="src">60 Minutes</p>
+                        <p class="meta"><span class="tag">TV segment</span><span class="tag time">10–30 min</span></p>
+                        <p class="why">The head of an AI company argues his own industry needs rules. Ask why a company
+                            might say this, and whether it changes your trust.</p>
+                    </li>
+                    <li class="res" data-time="short">
+                        <p class="title"><a
+                                href="https://techcrunch.com/2026/03/10/meta-acquired-moltbook-the-ai-agent-social-network-that-went-viral-because-of-fake-posts/">Meta
+                                acquired Moltbook, the AI agent social network that went viral because of fake posts</a>
+                        </p>
+                        <p class="src">TechCrunch, March 2026</p>
+                        <p class="meta"><span class="tag">News article</span><span class="tag time">Under 10 min</span>
+                        </p>
+                        <p class="why">A “social network for AI agents” seemed to show bots plotting secretly. Many
+                            viral posts turned out to be humans, and the hastily AI-built site leaked users’ private
+                            data. A lesson in hype, and in what happens when you ship AI-written code without checking
+                            it.</p>
+                    </li>
+                </ul>
+
+                <h2>Young people, privacy and wellbeing</h2>
+                <ul class="res-list">
+                    <li class="res pick" data-time="mid">
+                        <span class="pick-label">Start here</span>
+                        <p class="title"><a
+                                href="https://www.commonsensemedia.org/research/a-comprehensive-report-on-teens-tweens-and-ai">Common
+                                Sense Media Census: AI Use by Tweens and Teens</a></p>
+                        <p class="src">Common Sense Media, June 2026</p>
+                        <p class="meta"><span class="tag">Survey report</span><span class="tag time">10–30 min</span>
+                        </p>
+                        <p class="why">A survey of 1,204 kids aged 9–17. One in six chatbot users had seen something
+                            inappropriate, and most never told an adult.</p>
+                    </li>
+                    <li class="res" data-time="mid">
+                        <p class="title"><a
+                                href="https://www.commonsensemedia.org/research/talk-trust-and-trade-offs-how-and-why-teens-use-ai-companions">Talk,
+                                Trust, and Trade-Offs: How and Why Teens Use AI Companions</a></p>
+                        <p class="src">Common Sense Media, July 2025</p>
+                        <p class="meta"><span class="tag">Survey report</span><span class="tag time">10–30 min</span>
+                        </p>
+                        <p class="why">72% of teens had tried an AI companion and a third had chosen one over a person
+                            for a serious conversation. Also found 80% still spend more time with real friends.</p>
+                    </li>
+                </ul>
+
+                <h2>Questions to consider</h2>
+                <ul class="questions">
+                    <li>The AI you used to build your game learned from other people’s code, art and writing. Do you owe
+                        those creators anything? What would fair look like?</li>
+                    <li>After reading both Hao and Masley, what evidence would change your mind about AI’s environmental
+                        cost?</li>
+                    <li>An AI company CEO calling for regulation: is that responsibility, strategy, or both?</li>
+                    <li>If you added an AI-powered character to your game that talks to players, what guardrails would
+                        you need, especially for younger players?</li>
+                </ul>
+            </section>
+
+            <footer>Updated October 2026. Several resources link to paywalled publications; check with the school
+                library for access.</footer>
+        </main>
+    </div>
+
+    <script>
+        (function () {
+            document.documentElement.classList.add("js");
+            var pages = Array.prototype.slice.call(document.querySelectorAll(".page"));
+            var links = Array.prototype.slice.call(document.querySelectorAll(".nav a"));
+            var ids = pages.map(function (p) { return p.id; });
+
+            function show(id, scroll) {
+                if (ids.indexOf(id) === -1) id = "start";
+                pages.forEach(function (p) { p.classList.toggle("active", p.id === id); });
+                links.forEach(function (a) {
+                    if (a.getAttribute("href") === "#" + id) a.setAttribute("aria-current", "page");
+                    else a.removeAttribute("aria-current");
+                });
+                var current = document.querySelector('.nav a[aria-current="page"]');
+                if (current && current.scrollIntoView && window.matchMedia("(max-width: 52rem)").matches) {
+                    current.scrollIntoView({ block: "nearest", inline: "center" });
+                }
+                var h = document.getElementById(id).querySelector("h1");
+                document.title = (id === "start" ? "" : h.textContent + " | ") + "Generative AI: A Resource Guide for Student Game Makers";
+                if (scroll) window.scrollTo(0, 0);
+            }
+
+            window.addEventListener("hashchange", function () {
+                show(location.hash.slice(1), true);
+                var h = document.querySelector(".page.active h1");
+                if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+            });
+            show(location.hash.slice(1), false);
+
+            // Length filters
+            var options = [["all", "Any length"], ["short", "Under 10 min"], ["mid", "10–30 min"], ["long", "30+ min"]];
+            document.querySelectorAll(".filter").forEach(function (box) {
+                var page = box.closest(".page");
+                var label = document.createElement("span");
+                label.textContent = "Show:";
+                box.appendChild(label);
+                options.forEach(function (o) {
+                    var b = document.createElement("button");
+                    b.type = "button";
+                    b.textContent = o[1];
+                    b.dataset.time = o[0];
+                    b.setAttribute("aria-pressed", o[0] === "all" ? "true" : "false");
+                    b.addEventListener("click", function () {
+                        box.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+                        page.querySelectorAll(".res-list").forEach(function (list) {
+                            var shown = 0;
+                            list.querySelectorAll(".res").forEach(function (r) {
+                                var match = o[0] === "all" || r.dataset.time === o[0];
+                                r.hidden = !match;
+                                if (match) shown++;
+                            });
+                            var note = list.querySelector(".empty");
+                            if (!shown && !note) {
+                                note = document.createElement("li");
+                                note.className = "empty";
+                                note.textContent = "Nothing this length here. Try another filter.";
+                                list.appendChild(note);
+                            } else if (shown && note) {
+                                note.remove();
+                            }
+                        });
+                    });
+                    box.appendChild(b);
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>
